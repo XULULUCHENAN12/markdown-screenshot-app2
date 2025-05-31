@@ -8,7 +8,7 @@ class TestCases {
 ```javascript
 function thisIsAnExtremelyLongFunctionNameThatShouldTestTheWordWrappingBehaviorInCodeBlocks() {
   const anotherVeryLongVariableNameToTestWrapping = someObject.methodCall().chainedMethod().anotherLongChainedMethodCall().finalMethod();
-  return "这是一个包含中文字符的字符串，用于测试混合字符的换行效果";
+  return "这是一个包含中文字符的字符串，用于测试混合字符的换行效果：This is a very long string that contains both Chinese and English characters";
 }
 ```
 
@@ -31,7 +31,7 @@ another_complex_expression = (condition_one and condition_two and condition_thre
 // 这是一个复杂的JavaScript函数，包含长变量名和嵌套逻辑
 function processUserDataWithValidationAndErrorHandling(userData, options, callbacks) {
   if (!userData || typeof userData !== 'object') {
-    throw new Error('Invalid user data provided');
+    throw new Error('Invalid user data provided: expected object but received ' + typeof userData);
   }
   
   const validatedData = validateUserInput(userData.email, userData.name, userData.preferences);
@@ -49,9 +49,9 @@ function processUserDataWithValidationAndErrorHandling(userData, options, callba
 
 | 功能特性 | 实现状态 | 测试场景 | 预期效果 |
 |---------|---------|---------|---------|
-| 代码块自动换行 | 已实现 | 超长JavaScript函数 | 无水平滚动条 |
-| VS Code主题 | 已实现 | 深色背景浅色文字 | 符合VS Code Dark+风格 |
-| 混合语言支持 | 部分支持 | 中英文混合长字符串 | 正确断词换行 |
+| 代码块自动换行 | ✅ 已实现 | 超长JavaScript函数 | 无水平滚动条 |
+| VS Code主题 | ✅ 已实现 | 深色背景浅色文字 | 符合VS Code Dark+风格 |
+| 混合语言支持 | ⚠️ 部分支持 | 中英文混合长字符串 | 正确断词换行 |
 
 ## 列表中的代码
 1. 第一项包含行内代码：`const longVariableName = 'this is a long string value';`
@@ -66,30 +66,69 @@ function processUserDataWithValidationAndErrorHandling(userData, options, callba
       description: '测试代码块与其他Markdown元素的混合显示',
     ),
     
-    'simple_code': TestCase(
-      title: '简单代码测试',
-      markdown: '''# 简单代码测试
+    'special_characters': TestCase(
+      title: '特殊字符测试',
+      markdown: '''# 特殊字符和符号测试
 
-## 基本代码块
+## 包含特殊符号的代码
 ```javascript
-function simpleFunction() {
-  const message = "Hello World";
-  console.log(message);
-  return message;
+// 测试各种特殊字符和符号的显示效果
+const specialChars = {
+  symbols: "!@#$%^&*()_+-={}[]|:;'<>?,./",
+  unicode: "这里是中文字符，包含标点符号：「」『』、。！？；：",
+  arrows: "→ ← ↑ ↓ ⇒ ⇐ ⇑ ⇓ ↔ ⇔",
+  math: "∑ ∏ ∫ ∂ ∇ ∀ ∃ ∈ ∉ ⊂ ⊃ ⊆ ⊇ ∪ ∩"
+};
+
+// 测试长字符串中的特殊字符换行
+const longStringWithSpecialChars = "这是一个包含特殊字符的超长字符串：!@#$%^&*()_+-={}[]|:;'<>?,./ 以及中文标点：，。！？；：「」『』【】《》〈〉";
+```
+
+## 正则表达式模式
+```text
+^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$
+```''',
+      description: '测试特殊字符、符号和转义字符的正确显示',
+    ),
+    
+    'multiple_languages': TestCase(
+      title: '多语言代码测试',
+      markdown: '''# 多编程语言代码块测试
+
+## Java长类名和方法链
+```java
+public class VeryLongClassNameForTestingPurposesToEnsureProperWordWrappingBehavior {
+    public Optional<ProcessedUserDataWithValidationResult> processUserDataWithValidationAndErrorHandlingCapabilities(
+            UserInputDataTransferObject userInputData,
+            ProcessingConfigurationParameters processingConfig,
+            ValidationRulesCollection validationRules) throws DataProcessingException {
+        
+        return Optional.ofNullable(userInputData)
+                .filter(data -> data.isValid())
+                .map(data -> validateUserInputAccordingToBusinessRules(data, validationRules))
+                .flatMap(validatedData -> transformAndProcessUserData(validatedData, processingConfig))
+                .orElseThrow(() -> new DataProcessingException("Failed to process user data"));
+    }
 }
 ```
 
-## Python代码
+## Python长函数定义
 ```python
-def simple_function():
-    message = "Hello World"
-    print(message)
-    return message
-```
-
-## 行内代码
-这里有一些行内代码：`console.log("Hello")` 和 `print("Hello")`。''',
-      description: '测试基本代码块功能',
+def extremely_long_function_name_that_demonstrates_wrapping_behavior_for_testing_purposes():
+    very_long_variable_name_for_demonstration = "这是一个测试字符串用于验证Python代码的换行效果"
+    another_variable_with_long_name = some_function_call(param1, param2, param3, param4, param5)
+    
+    if condition_one and condition_two and very_long_condition_name:
+        print("这是一行很长的Python代码，用于测试自动换行功能是否正常工作")
+        result = some_object.method_call().chained_method().another_chained_method()
+    
+    return {
+        "status": "success",
+        "data": processed_data,
+        "very_long_key_name": another_variable_with_long_name
+    }
+```''',
+      description: '测试不同编程语言的长函数名、类名和复杂声明',
     ),
     
     'thinking_example': TestCase(
@@ -107,6 +146,12 @@ def simple_function():
    - 背景色：#1E1E1E
    - 默认文字色：#D4D4D4
    - 保持语法高亮的可读性
+
+4. 截图过程中需要注意的问题：
+   - WebView渲染完成的时机
+   - 内容是否完整显示
+   - 图片尺寸和质量验证
+   - 处理可能的渲染失败情况
 
 基于这些分析，我认为当前的实现方案是可行的。''',
       markdown: '''# Flutter APK实现分析
@@ -148,12 +193,12 @@ class ValidationResult {
 ```
 
 ## 预期效果
-- 代码块正确自动换行
-- 无水平滚动条
-- VS Code Dark+主题
-- 支持思考过程显示
-- 智能错误恢复''',
-      description: '包含思考过程的技术分析示例',
+- ✅ 代码块正确自动换行
+- ✅ 无水平滚动条
+- ✅ VS Code Dark+主题
+- ✅ 支持思考过程显示
+- ✅ 智能错误恢复''',
+      description: '包含思考过程的复杂技术分析示例',
     ),
   };
 
