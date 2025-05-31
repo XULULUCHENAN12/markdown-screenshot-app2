@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart' as mdp;
 
 class MarkdownRenderer {
   static const String _optimizedCodeCSS = '''
@@ -340,42 +339,6 @@ class MarkdownRenderer {
   }
 
   static Widget buildFlutterMarkdown(String content, {bool useAlternative = false}) {
-    if (useAlternative) {
-      return mdp.MarkdownWidget(
-        data: content,
-        config: mdp.MarkdownConfig(
-          configs: [
-            mdp.PreConfig(
-              theme: const mdp.PreConfigTheme(
-                backgroundColor: Color(0xfff8f9fa),
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: Color(0xfff8f9fa),
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  border: Border.fromBorderSide(BorderSide(color: Color(0xffe9ecef))),
-                ),
-              ),
-              wrapper: (child, code, language) {
-                return Container(
-                  width: double.infinity,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: double.infinity,
-                      ),
-                      child: child,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      );
-    }
-    
     return Markdown(
       data: content,
       selectable: true,
@@ -386,11 +349,12 @@ class MarkdownRenderer {
           backgroundColor: Color(0xfff1f3f4),
         ),
         codeblockDecoration: const BoxDecoration(
-          color: Color(0xfff8f9fa),
+          color: Color(0xff1E1E1E),
           borderRadius: BorderRadius.all(Radius.circular(6)),
           border: Border.fromBorderSide(BorderSide(color: Color(0xffe9ecef))),
         ),
         codeblockPadding: const EdgeInsets.all(16),
+        codeblockAlign: WrapAlignment.start,
         blockquote: const TextStyle(
           color: Color(0xff6a737d),
           fontStyle: FontStyle.italic,
@@ -401,6 +365,25 @@ class MarkdownRenderer {
           border: Border(left: BorderSide(color: Color(0xffdfe2e5), width: 4)),
         ),
         blockquotePadding: const EdgeInsets.all(16),
+        p: const TextStyle(
+          fontSize: 16,
+          height: 1.6,
+        ),
+        h1: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff222222),
+        ),
+        h2: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff222222),
+        ),
+        h3: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff222222),
+        ),
       ),
     );
   }
