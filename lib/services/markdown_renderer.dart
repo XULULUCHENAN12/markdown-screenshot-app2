@@ -236,7 +236,7 @@ class MarkdownRenderer {
     processed = processed.replaceAll(RegExp(r'style\s*=\s*\'[^\']*\'', caseSensitive: false), '');
     
     processed = processed.replaceAll(RegExp(r'<pre([^>]*)>', caseSensitive: false), 
-        '<div class="code-block"><pre\$1>');
+        '<div class="code-block"><pre\\1>');
     processed = processed.replaceAll('</pre>', '</pre></div>');
     
     processed = processed.replaceAllMapped(

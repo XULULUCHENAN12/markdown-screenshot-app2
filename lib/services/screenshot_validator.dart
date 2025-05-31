@@ -3,10 +3,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class ScreenshotValidator {
-  static const int MIN_IMAGE_SIZE = 5000; // 最小图片大小（字节）
-  static const double MIN_WIDTH = 600; // 最小图片宽度
-  static const double MIN_HEIGHT = 400; // 最小图片高度
-  static const double MAX_ASPECT_RATIO = 10.0; // 最大宽高比（防止过窄的长条图）
+  static const int minImageSize = 5000; // 最小图片大小（字节）
+  static const double minWidth = 600; // 最小图片宽度
+  static const double minHeight = 400; // 最小图片高度
+  static const double maxAspectRatio = 10.0; // 最大宽高比（防止过窄的长条图）
 
   static Future<ValidationResult> validateScreenshot(
     Uint8List imageData, {
@@ -16,7 +16,7 @@ class ScreenshotValidator {
     final result = ValidationResult();
 
     // 检查图片大小
-    if (imageData.length < MIN_IMAGE_SIZE) {
+    if (imageData.length < minImageSize) {
       result.isValid = false;
       result.issues.add('图片文件过小 (${imageData.length} bytes)，可能生成失败');
       return result;
@@ -36,18 +36,18 @@ class ScreenshotValidator {
       result.aspectRatio = width / height;
 
       // 验证图片尺寸
-      if (width < MIN_WIDTH) {
+      if (width < minWidth) {
         result.isValid = false;
-        result.issues.add('图片宽度过小 (${width.toInt()}px < ${MIN_WIDTH.toInt()}px)');
+        result.issues.add('图片宽度过小 (${width.toInt()}px < ${minWidth.toInt()}px)');
       }
 
-      if (height < MIN_HEIGHT) {
+      if (height < minHeight) {
         result.isValid = false;
-        result.issues.add('图片高度过小 (${height.toInt()}px < ${MIN_HEIGHT.toInt()}px)');
+        result.issues.add('图片高度过小 (${height.toInt()}px < ${minHeight.toInt()}px)');
       }
 
       // 检查宽高比（防止长条图）
-      if (result.aspectRatio > MAX_ASPECT_RATIO) {
+      if (result.aspectRatio > maxAspectRatio) {
         result.isValid = false;
         result.issues.add('图片过于狭长 (宽高比: ${result.aspectRatio.toStringAsFixed(2)})');
       }
@@ -94,7 +94,7 @@ class ScreenshotValidator {
       final image = frameInfo.image;
       
       // 获取图片的字节数据进行颜色分析
-      final byteData = await image.toByteData(format: ui.ImageByteFormat.rgba8888);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
       if (byteData == null) {
         return ColorAnalysis(isDominantlySingleColor: false, dominantColor: Colors.transparent);
       }
@@ -186,10 +186,10 @@ class ScreenshotValidator {
     try {
       // 基于验证结果调整参数
       double adjustedWidth = fallbackWidth;
-      double adjustedPixelRatio = fallbackPixelRatio;
+      // double adjustedPixelRatio = fallbackPixelRatio;
       
-      if (failedResult.actualWidth != null && failedResult.actualWidth! < MIN_WIDTH) {
-        adjustedWidth = MIN_WIDTH * 1.2;
+      if (failedResult.actualWidth != null && failedResult.actualWidth! < minWidth) {
+        adjustedWidth = minWidth * 1.2;
       }
       
       // 简化HTML内容，移除可能导致问题的元素

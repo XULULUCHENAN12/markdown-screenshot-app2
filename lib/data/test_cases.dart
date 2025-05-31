@@ -8,7 +8,7 @@ class TestCases {
 ```javascript
 function thisIsAnExtremelyLongFunctionNameThatShouldTestTheWordWrappingBehaviorInCodeBlocks() {
   const anotherVeryLongVariableNameToTestWrapping = someObject.methodCall().chainedMethod().anotherLongChainedMethodCall().finalMethod();
-  return "这是一个包含中文字符的字符串，用于测试混合字符的换行效果：This is a very long string that contains both Chinese and English characters to test mixed character wrapping behavior";
+  return "这是一个包含中文字符的字符串，用于测试混合字符的换行效果：This is a very long string that contains both Chinese and English characters";
 }
 ```
 
@@ -62,12 +62,7 @@ function processUserDataWithValidationAndErrorHandling(userData, options, callba
    INNER JOIN profiles ON users.id = profiles.user_id 
    WHERE users.created_at > '2023-01-01' AND users.status = 'active';
    ```
-3. 第三项是普通文本
-
-> **引用块中的代码**
-> ```bash
-> find /very/long/path/to/search/directory -name "*.js" -type f -exec grep -l "veryLongFunctionNameToSearch" {} + | xargs wc -l
-> ```''',
+3. 第三项是普通文本''',
       description: '测试代码块与其他Markdown元素的混合显示',
     ),
     
@@ -79,32 +74,19 @@ function processUserDataWithValidationAndErrorHandling(userData, options, callba
 ```javascript
 // 测试各种特殊字符和符号的显示效果
 const specialChars = {
-  symbols: "!@#\$%^&*()_+-={}[]|\\:;\"'<>?,./'",
+  symbols: "!@#\\$%^&*()_+-={}[]|\\\\:;\\"'<>?,./'",
   unicode: "这里是中文字符，包含标点符号：「」『』、。！？；：",
   arrows: "→ ← ↑ ↓ ⇒ ⇐ ⇑ ⇓ ↔ ⇔",
-  math: "∑ ∏ ∫ ∂ ∇ ∀ ∃ ∈ ∉ ⊂ ⊃ ⊆ ⊇ ∪ ∩",
-  greek: "α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω"
+  math: "∑ ∏ ∫ ∂ ∇ ∀ ∃ ∈ ∉ ⊂ ⊃ ⊆ ⊇ ∪ ∩"
 };
 
 // 测试长字符串中的特殊字符换行
-const longStringWithSpecialChars = "这是一个包含特殊字符的超长字符串：!@#$%^&*()_+-={}[]|\\:;\"'<>?,./ 以及中文标点：，。！？；：「」『』【】《》〈〉";
-```
-
-## HTML实体和转义字符
-```html
-<!-- 测试HTML实体的正确显示 -->
-<div class="container">
-  <p>这里包含需要转义的字符：&lt; &gt; &amp; &quot; &#39;</p>
-  <script>
-    const htmlString = "包含HTML标签的字符串：<div class='test'>内容</div>";
-  </script>
-</div>
+const longStringWithSpecialChars = "这是一个包含特殊字符的超长字符串：!@#\\$%^&*()_+-={}[]|\\\\:;\\"'<>?,./ 以及中文标点：，。！？；：「」『』【】《》〈〉";
 ```
 
 ## 正则表达式模式
 ```regex
-# 复杂的正则表达式模式测试
-^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$
+^[a-z0-9!#\\$%&'*+/=?^_\\`{|}~-]+(?:\\.[a-z0-9!#\\$%&'*+/=?^_\\`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\$
 ```''',
       description: '测试特殊字符、符号和转义字符的正确显示',
     ),
@@ -130,57 +112,21 @@ public class VeryLongClassNameForTestingPurposesToEnsureProperWordWrappingBehavi
 }
 ```
 
-## C#带泛型的长声明
-```csharp
-public class GenericDataProcessorWithVeryLongNameForTestingPurposes<TInputData, TOutputData, TProcessingContext> 
-    where TInputData : IValidatableUserInput, ISerializableData
-    where TOutputData : IProcessedResult, IComparableResult<TOutputData>
-    where TProcessingContext : IProcessingContext, IDisposable
-{
-    private readonly Dictionary<string, Func<TInputData, TProcessingContext, Task<TOutputData>>> _processingStrategies;
+## Python长函数定义
+```python
+def extremely_long_function_name_that_demonstrates_wrapping_behavior_for_testing_purposes():
+    very_long_variable_name_for_demonstration = "这是一个测试字符串用于验证Python代码的换行效果"
+    another_variable_with_long_name = some_function_call(param1, param2, param3, param4, param5)
     
-    public async Task<ProcessingResult<TOutputData>> ProcessDataWithAdvancedValidationAndErrorHandling(
-        TInputData inputData, 
-        TProcessingContext context,
-        CancellationToken cancellationToken = default)
-    {
-        // 实现逻辑...
+    if condition_one and condition_two and very_long_condition_name:
+        print("这是一行很长的Python代码，用于测试自动换行功能是否正常工作")
+        result = some_object.method_call().chained_method().another_chained_method()
+    
+    return {
+        "status": "success",
+        "data": processed_data,
+        "very_long_key_name": another_variable_with_long_name
     }
-}
-```
-
-## Go接口和结构体
-```go
-type UserDataProcessorWithAdvancedValidationCapabilities interface {
-    ProcessUserDataWithValidationAndTransformation(userData *UserInputDataStructure, options *ProcessingOptions) (*ProcessedUserDataResult, error)
-    ValidateUserInputAccordingToBusinessRulesAndPolicies(userData *UserInputDataStructure, rules *ValidationRulesCollection) (*ValidationResult, error)
-}
-
-type userDataProcessorImplementationWithLoggingAndMetrics struct {
-    logger                    LoggerInterface
-    metricsCollector         MetricsCollectionInterface
-    validationRulesProvider  ValidationRulesProviderInterface
-    dataTransformationEngine DataTransformationEngineInterface
-}
-```
-
-## Rust长函数签名
-```rust
-impl DataProcessorWithAdvancedValidationAndErrorHandling for UserDataProcessingService {
-    fn process_user_data_with_comprehensive_validation_and_transformation<'a, T, U, V>(
-        &self,
-        user_input_data: &'a UserInputDataStructureWithValidation<T>,
-        processing_configuration: ProcessingConfigurationParametersWithAdvancedOptions<U>,
-        validation_rules_collection: &ValidationRulesCollectionWithPolicies<V>,
-    ) -> Result<ProcessedUserDataResultWithMetadata<T, U, V>, DataProcessingErrorWithContext>
-    where
-        T: DeserializeOwned + SerializeOwned + Clone + Debug + Send + Sync + 'static,
-        U: ProcessingConfigurationTrait + Clone + Debug + Send + Sync + 'static,
-        V: ValidationRulesTrait + Clone + Debug + Send + Sync + 'static,
-    {
-        // 实现逻辑...
-    }
-}
 ```''',
       description: '测试不同编程语言的长函数名、类名和复杂声明',
     ),
@@ -207,12 +153,6 @@ impl DataProcessorWithAdvancedValidationAndErrorHandling for UserDataProcessingS
    - 图片尺寸和质量验证
    - 处理可能的渲染失败情况
 
-5. 验证机制应该包括：
-   - 图片文件大小检查
-   - 图片尺寸验证
-   - 宽高比检查（防止长条图）
-   - 颜色分析（检测纯色图片）
-
 基于这些分析，我认为当前的实现方案是可行的。''',
       markdown: '''# Flutter APK实现分析
 
@@ -220,7 +160,7 @@ impl DataProcessorWithAdvancedValidationAndErrorHandling for UserDataProcessingS
 - **Flutter**: 跨平台移动开发框架
 - **WebView**: 用于渲染HTML内容
 - **Screenshot**: 屏幕截图功能库
-- **flutter_markdown_plus**: 主要Markdown渲染器
+- **flutter_markdown**: 主要Markdown渲染器
 
 ## 关键实现特性
 
@@ -251,13 +191,6 @@ class ValidationResult {
   double aspectRatio = 0.0;
 }
 ```
-
-### 3. 恢复策略
-当截图验证失败时，系统会：
-1. 调整渲染参数（宽度、像素比例）
-2. 简化HTML内容
-3. 重新生成截图
-4. 再次验证结果
 
 ## 预期效果
 - ✅ 代码块正确自动换行
