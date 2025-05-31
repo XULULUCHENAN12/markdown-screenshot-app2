@@ -40,14 +40,14 @@ jobs:
       run: flutter build apk --release --split-per-abi
       
     - name: Upload Debug APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: markdown-screenshot-debug-apk
         path: build/app/outputs/flutter-apk/app-debug.apk
         retention-days: 30
         
     - name: Upload Release APKs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: markdown-screenshot-release-apks
         path: build/app/outputs/flutter-apk/app-release.apk
@@ -77,7 +77,7 @@ jobs:
         echo "5. 开始使用！" >> release_info.md
         
     - name: Upload Release Info
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release-info
         path: release_info.md
