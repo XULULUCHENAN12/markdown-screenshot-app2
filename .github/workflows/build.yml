@@ -1,0 +1,83 @@
+name: Build Flutter APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Analyze code
+      run: flutter analyze
+      
+    - name: Build APK (Debug)
+      run: flutter build apk --debug
+      
+    - name: Build APK (Release)
+      run: flutter build apk --release --split-per-abi
+      
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: markdown-screenshot-debug-apk
+        path: build/app/outputs/flutter-apk/app-debug.apk
+        retention-days: 30
+        
+    - name: Upload Release APKs
+      uses: actions/upload-artifact@v3
+      with:
+        name: markdown-screenshot-release-apks
+        path: build/app/outputs/flutter-apk/app-release.apk
+        retention-days: 30
+        
+    - name: Create Release Info
+      run: |
+        echo "## 📱 Markdown截图工具 APK" > release_info.md
+        echo "" >> release_info.md
+        echo "### 🎯 功能特性" >> release_info.md
+        echo "- ✅ 代码块自动换行（无水平滚动）" >> release_info.md
+        echo "- ✅ VS Code Dark+主题" >> release_info.md
+        echo "- ✅ 截图失败自动恢复" >> release_info.md
+        echo "- ✅ 思考过程合并显示" >> release_info.md
+        echo "- ✅ 5种预设测试用例" >> release_info.md
+        echo "" >> release_info.md
+        echo "### 📦 APK信息" >> release_info.md
+        echo "- 构建时间: $(date)" >> release_info.md
+        echo "- Flutter版本: 3.16.0" >> release_info.md
+        echo "- 最小Android版本: API 21 (Android 5.0)" >> release_info.md
+        echo "" >> release_info.md
+        echo "### 📱 安装说明" >> release_info.md
+        echo "1. 下载 app-release.apk" >> release_info.md
+        echo "2. 在Android设备上允许安装未知来源应用" >> release_info.md
+        echo "3. 安装APK" >> release_info.md
+        echo "4. 授予存储权限" >> release_info.md
+        echo "5. 开始使用！" >> release_info.md
+        
+    - name: Upload Release Info
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-info
+        path: release_info.md

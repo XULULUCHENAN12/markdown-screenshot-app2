@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown截图工具 - 功能演示</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2196F3;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .form-section {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+        }
+        
+        .markdown-textarea {
+            min-height: 300px;
+        }
+        
+        .switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .switch input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .primary-btn {
+            background: #2196F3;
+            color: white;
+            flex: 1;
+        }
+        
+        .secondary-btn {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .primary-btn:hover {
+            background: #1976D2;
+        }
+        
+        .secondary-btn:hover {
+            background: #eeeeee;
+        }
+        
+        .success-box {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 12px;
+            color: #2e7d32;
+        }
+        
+        .success-box strong {
+            color: #1b5e20;
+        }
+        
+        .success-box a {
+            color: #1976d2;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .preview-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        
+        .screenshot-preview {
+            background: #FDF5E6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .thinking-section {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            border-left: 3px solid #999;
+            padding-left: 10px;
+            background-color: rgba(0,0,0,0.05);
+            padding-top: 5px;
+            padding-bottom: 5px;
+            white-space: pre-wrap;
+        }
+        
+        .thinking-label {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+        }
+        
+        .markdown-content h1 {
+            font-size: 2em;
+            color: #222;
+            margin-bottom: 0.8em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.7em;
+            color: #222;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+        
+        .markdown-content pre {
+            background-color: #1E1E1E;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1em 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        
+        .markdown-content pre code {
+            display: block;
+            color: #D4D4D4;
+            font-family: 'Fira Code', 'Source Code Pro', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .markdown-content code {
+            background-color: rgba(0,0,0,0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+        
+        .test-cases {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .test-case {
+            background: white;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s;
+        }
+        
+        .test-case:hover {
+            background: #f0f7ff;
+            border-color: #2196F3;
+        }
+        
+        .test-case-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .test-case-desc {
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Markdown截图工具</h1>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="showTestCases()" title="选择测试用例">🧪</button>
+                <button class="icon-btn" onclick="clearAll()" title="清空所有内容">🗑️</button>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="filename">文件名（可选）：</label>
+                        <input type="text" id="filename" placeholder="留空将自动生成" value="markdown_test_1717167300">
+                    </div>
+                    <div class="switch">
+                        <input type="checkbox" id="useAlt">
+                        <label for="useAlt">使用备选渲染器</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label for="thinking">思考过程（可选）：</label>
+                <textarea id="thinking" placeholder="在这里输入思考过程...">让我分析一下这个Markdown截图的需求：
+
+1. 首先需要确保代码块能够正确换行，避免出现水平滚动
+2. 使用VS Code Dark+主题风格，深色背景配浅色文字
+3. 确保截图过程中不会出现内容截断的问题
+4. 支持思考过程和回答内容的合并显示
+
+基于油猴脚本的实现经验，关键是要在CSS中强制设置：
+- white-space: pre-wrap
+- word-break: break-all
+- overflow-x: hidden
+- 固定的容器宽度
+
+这样可以确保长代码行能够正确换行显示。</textarea>
+            </div>
+            
+            <div class="form-section">
+                <label for="markdown">Markdown内容：</label>
+                <textarea id="markdown" class="markdown-textarea" placeholder="在这里输入Markdown内容..."># Markdown截图测试
+
+## 基本文本格式
+这是一个**加粗文本**和*斜体文本*的示例。
+
+## 代码块测试
+
+### JavaScript代码
+```javascript
+function processLongVariableNamesAndComplexFunctionCallsWithManyParametersAndNestedObjects() {
+  const veryLongVariableNameThatShouldWrapCorrectly = "这是一个很长的字符串，应该能够正确换行显示";
+  const anotherLongVariable = someFunction.call(this, param1, param2, param3, param4);
+  
+  if (condition && anotherCondition && yetAnotherVeryLongConditionName) {
+    console.log("这行代码包含多个嵌套的函数调用和长参数名称");
+    someObject.someMethod().chainedMethod().anotherChainedMethod();
+  }
+  
+  return {
+    result: "success",
+    data: processedData,
+    metadata: { timestamp: Date.now(), version: "1.0.0" }
+  };
+}
+```
+
+### Python代码
+```python
+def extremely_long_function_name_that_demonstrates_wrapping_behavior():
+    very_long_variable_name_for_demonstration = "这是一个测试字符串用于验证Python代码的换行效果"
+    another_variable_with_long_name = some_function_call(param1, param2, param3, param4, param5)
+    
+    if condition_one and condition_two and very_long_condition_name:
+        print("这是一行很长的Python代码，用于测试自动换行功能是否正常工作")
+        result = some_object.method_call().chained_method().another_chained_method()
+    
+    return {
+        "status": "success",
+        "data": processed_data,
+        "very_long_key_name": another_variable_with_long_name
+    }
+```
+
+## 表格测试
+| 功能 | 描述 | 状态 |
+|------|------|------|
+| 代码块换行 | 强制使用pre-wrap实现自动换行 | ✅ 完成 |
+| 水平滚动禁用 | 使用overflow-x: hidden | ✅ 完成 |
+| VS Code主题 | 深色背景配浅色文字 | ✅ 完成 |</textarea>
+            </div>
+            
+            <div class="button-row">
+                <button class="primary-btn" onclick="generateScreenshot()">
+                    📷 生成截图
+                </button>
+                <button class="secondary-btn" onclick="copyMarkdown()">
+                    📋 复制Markdown
+                </button>
+            </div>
+            
+            <div class="success-box" id="result" style="display: none;">
+                <strong>✅ 截图已生成:</strong><br>
+                <a onclick="copyPath()">/storage/emulated/0/Android/data/com.example.markdown_screenshot_app/files/markdown_test_1717167300.png</a>
+            </div>
+            
+            <div class="test-cases" id="testCases" style="display: none;">
+                <h3>📚 选择测试用例</h3>
+                <div class="test-case" onclick="loadTestCase('long_code_lines')">
+                    <div class="test-case-title">📝 超长代码行测试</div>
+                    <div class="test-case-desc">测试超长代码行的自动换行效果</div>
+                </div>
+                <div class="test-case" onclick="loadTestCase('mixed_content')">
+                    <div class="test-case-title">🔄 混合内容测试</div>
+                    <div class="test-case-desc">代码块与其他Markdown元素混合</div>
+                </div>
+                <div class="test-case" onclick="loadTestCase('special_characters')">
+                    <div class="test-case-title">🔣 特殊字符测试</div>
+                    <div class="test-case-desc">各种特殊符号和Unicode字符</div>
+                </div>
+                <div class="test-case" onclick="loadTestCase('multiple_languages')">
+                    <div class="test-case-title">🌐 多语言代码测试</div>
+                    <div class="test-case-desc">不同编程语言的复杂声明</div>
+                </div>
+                <div class="test-case" onclick="loadTestCase('thinking_example')">
+                    <div class="test-case-title">🧠 思考过程示例</div>
+                    <div class="test-case-desc">包含思考过程的完整示例</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <div class="preview-title">📱 截图效果预览</div>
+            <div class="screenshot-preview">
+                <div class="thinking-section">
+                    <div class="thinking-label">思考过程:</div>
+                    <div>让我分析一下这个Markdown截图的需求：
+
+1. 首先需要确保代码块能够正确换行，避免出现水平滚动
+2. 使用VS Code Dark+主题风格，深色背景配浅色文字
+3. 确保截图过程中不会出现内容截断的问题</div>
+                </div>
+                
+                <div class="markdown-content">
+                    <h1>Markdown截图测试</h1>
+                    
+                    <h2>JavaScript代码</h2>
+                    <pre><code>function processLongVariableNamesAndComplexFunctionCallsWithManyParametersAndNestedObjects() {
+  const veryLongVariableNameThatShouldWrapCorrectly = "这是一个很长的字符串，应该能够正确换行显示";
+  const anotherLongVariable = someFunction.call(this, param1, param2, param3, param4);
+  
+  if (condition && anotherCondition && yetAnotherVeryLongConditionName) {
+    console.log("这行代码包含多个嵌套的函数调用和长参数名称");
+    someObject.someMethod().chainedMethod().anotherChainedMethod();
+  }
+  
+  return {
+    result: "success",
+    data: processedData,
+    metadata: { timestamp: Date.now(), version: "1.0.0" }
+  };
+}</code></pre>
+                    
+                    <p>✅ <strong>关键特性</strong>：代码行自动换行，无水平滚动条，VS Code Dark+主题</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTestCases() {
+            const testCases = document.getElementById('testCases');
+            testCases.style.display = testCases.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function clearAll() {
+            document.getElementById('filename').value = '';
+            document.getElementById('thinking').value = '';
+            document.getElementById('markdown').value = '';
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        function generateScreenshot() {
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            
+            // 模拟截图生成
+            setTimeout(() => {
+                alert('✅ 截图生成成功！\n\n在真实的APK中，这会：\n1. 使用WebView渲染HTML\n2. 应用VS Code Dark+主题\n3. 强制代码块自动换行\n4. 验证截图质量\n5. 保存到设备存储');
+            }, 1000);
+        }
+        
+        function copyMarkdown() {
+            const markdown = document.getElementById('markdown').value;
+            navigator.clipboard.writeText(markdown).then(() => {
+                alert('📋 Markdown内容已复制到剪贴板');
+            });
+        }
+        
+        function copyPath() {
+            const path = '/storage/emulated/0/Android/data/com.example.markdown_screenshot_app/files/markdown_test_1717167300.png';
+            navigator.clipboard.writeText(path).then(() => {
+                alert('📋 文件路径已复制到剪贴板');
+            });
+        }
+        
+        function loadTestCase(caseKey) {
+            const testCases = {
+                'long_code_lines': {
+                    thinking: '分析超长代码行的处理需求...',
+                    markdown: '# 超长代码行测试\n\n```javascript\nfunction thisIsAnExtremelyLongFunctionNameThatShouldTestTheWordWrappingBehaviorInCodeBlocks() {\n  const anotherVeryLongVariableNameToTestWrapping = someObject.methodCall().chainedMethod().anotherLongChainedMethodCall().finalMethod();\n  return "这是一个包含中文字符的字符串，用于测试混合字符的换行效果";\n}\n```'
+                },
+                'mixed_content': {
+                    thinking: '测试混合内容的显示效果...',
+                    markdown: '# 混合内容测试\n\n普通文本和代码块的混合：\n\n```python\ndef very_long_function_name():\n    return "test"\n```\n\n| 表格 | 测试 |\n|------|------|\n| 代码 | 正常 |'
+                }
+            };
+            
+            const testCase = testCases[caseKey];
+            if (testCase) {
+                document.getElementById('thinking').value = testCase.thinking;
+                document.getElementById('markdown').value = testCase.markdown;
+                document.getElementById('filename').value = `${caseKey}_${Math.floor(Date.now() / 1000)}`;
+                document.getElementById('testCases').style.display = 'none';
+                alert(`✅ 已加载测试用例: ${caseKey}`);
+            }
+        }
+    </script>
+</body>
+</html>
