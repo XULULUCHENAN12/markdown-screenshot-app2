@@ -157,7 +157,7 @@ class ScreenshotService {
       htmlContent = htmlContent.replaceFirst('</body>', '</div></div></body>');
     }
 
-    final optimizationScript = '''
+    const optimizationScript = '''
       <script>
         function optimizeForScreenshot() {
           document.body.style.width = '800px';

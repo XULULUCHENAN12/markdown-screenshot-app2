@@ -230,26 +230,20 @@ class MarkdownRenderer {
   static String preprocessHtml(String htmlContent) {
     String processed = htmlContent;
     
+    // 移除style标签
     processed = processed.replaceAll(RegExp(r'<style[^>]*>.*?</style>', dotAll: true), '');
     
-    processed = processed.replaceAll(RegExp(r'style\s*=\s*"[^"]*"', caseSensitive: false), '');
-    processed = processed.replaceAll(RegExp(r'style\s*=\s*\'[^\']*\'', caseSensitive: false), '');
+    // 移除style属性 - 简化处理
+    processed = processed.replaceAll(RegExp(r'style="[^"]*"'), '');
+    processed = processed.replaceAll(RegExp(r"style='[^']*'"), '');
     
-    processed = processed.replaceAll(RegExp(r'<pre([^>]*)>', caseSensitive: false), 
-        '<div class="code-block"><pre\\1>');
+    // 包装pre标签
+    processed = processed.replaceAll('<pre>', '<div class="code-block"><pre>');
     processed = processed.replaceAll('</pre>', '</pre></div>');
     
-    processed = processed.replaceAllMapped(
-      RegExp(r'<code[^>]*class\s*=\s*["\']([^"\']*)["\'][^>]*>', caseSensitive: false),
-      (match) {
-        String className = match.group(1) ?? '';
-        String language = className.replaceFirst('language-', '');
-        return '${match.group(0)}<span class="language-tag">$language</span>';
-      },
-    );
-    
-    processed = processed.replaceAll(RegExp(r'<div[^>]*style[^>]*>', caseSensitive: false), '<div>');
-    processed = processed.replaceAll(RegExp(r'<span[^>]*style[^>]*>', caseSensitive: false), '<span>');
+    // 清理其他style属性
+    processed = processed.replaceAll(RegExp(r'<div[^>]*style[^>]*>'), '<div>');
+    processed = processed.replaceAll(RegExp(r'<span[^>]*style[^>]*>'), '<span>');
     
     return processed;
   }
